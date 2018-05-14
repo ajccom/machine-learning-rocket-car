@@ -1,7 +1,9 @@
 # rocket-car
 基于神经网络进化的机器学习游戏例子
 
-## DEMO
+## [DEMO](!https://ajccom.github.io/rocket-car/)
+
+
 
 游戏使用的机器学习框架为 [Neuroevolution.js](!https://github.com/xviniette/FlappyLearning/blob/gh-pages/Neuroevolution.js)
 
