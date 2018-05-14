@@ -104,7 +104,8 @@ var Car = (function () {
   // 每 3 次进行一次瞄准
   function getAliveCarX () {
     if (interval === 0) {
-      interval = 3
+      // interval = 3
+      interval = 1    
       for (var i = 0; i < playerCarData.length; i++) {
         if (playerCarData[i].alive) {
           return playerCarData[i].x
