@@ -137,7 +137,8 @@ var Car = (function () {
         y: 400,
         width: 36,
         height: 72,
-        alive: true
+        alive: true,
+        activeTime: 0
       })
       
       alivePlayerCarNumber++
@@ -162,21 +163,20 @@ var Car = (function () {
     return result
   }
   
-  function getFirstOtherCar () {
-    var result = null
+  function getFirstAndSecondOtherCar () {
+    var i = 0
     
-    for (var i = 0; i < otherCarData.length; i++) {
+    for (i; i < otherCarData.length; i++) {
       if (otherCarData[i].y < 472) {
-        result = otherCarData[i]
         break
       }
     }
     
-    return result
+    return [otherCarData[i], otherCarData[i + 1]]
   }
   
   function update () {
-    var i = 0, car = null, input = [], result = 0, network = null, max = 0, otherCar = getFirstOtherCar()
+    var i = 0, car = null, input = [], result = 0, network = null, max = 0, otherCars = getFirstAndSecondOtherCar()
     
     // update player cars
     for (i = 0; i < playerCarData.length; i++) {
@@ -185,23 +185,35 @@ var Car = (function () {
 
       if (car.alive) {
         if (car.x < 100 || car.x > 364 || checkPlayerCarDeadWithOtherCar(car.x, car.y)) {
-          playerCarData[i].alive = false
-          Neuvol.networkScore(network, score)
+          car.alive = false
+          Neuvol.networkScore(network, car.activeTime === 0 ? 0 : (score + car.activeTime * 1000) )
           alivePlayerCarNumber--
         } else {
           input = [
             car.x / 512,
-            otherCar.x / 512
+            otherCars[0].x / 512,
+            otherCars[1].x / 512
           ]
           result = playerCars[i].compute(input)
           
+          //2 output
           if (result[0] > 0.5) {
+            car.activeTime++
             if (result[1] > 0.5) {
               car.x += 8
             } else {
               car.x -= 8
             }
           }
+          
+          // 1 output
+          // if (result[0] <= 0.333333) {
+            // car.activeTime++
+            // car.x += 8
+          // } else if (result[0] >= 0.666666) {
+            // car.activeTime++
+            // car.x -= 8
+          // }
         }
       }
     }
@@ -433,7 +445,7 @@ window.addEventListener('load', function () {
     
     Neuvol = new Neuroevolution({
 			population: 100,
-			network:[2, [2], 2]
+			network:[3, [3], 2]
 		})
     
     Car.createPlayerCars()
