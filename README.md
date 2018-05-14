@@ -1,7 +1,7 @@
 # machine-learning-rocket-car
 基于神经网络进化的机器学习游戏例子
 
-## [DEMO](https://ajccom.github.io/rocket-car/)
+## [DEMO](https://ajccom.github.io/machine-learning-rocket-car/)
 
 ![1](https://user-images.githubusercontent.com/2509085/39975489-6df62f38-5761-11e8-9f6c-458ad282707e.PNG)
 
